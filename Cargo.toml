@@ -1,0 +1,13 @@
+[package]
+name = "lazer"
+version = "1.0.0"
+authors = ["Will Henderson <14willh@gmail.com>"]
+description= "A console printer with a fluent API"
+documentation = "https://github.com/w-ah/lazer-rs/issues"
+readme = "README.md"
+homepage = "https://github.com/w-ah/lazer-rs"
+repository = "https://github.com/w-ah/lazer-rs"
+license = "MIT"
+license-file = "LICENSE"
+keywords = ["console", "print", "log", "logger"]
+categories = ["command-line-utilities"]
