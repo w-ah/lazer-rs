@@ -82,16 +82,34 @@ impl Printer {
     }
 
     pub fn print_space(&self, len: usize) -> &Printer {
-        let space_str = "".repeat(len);
+        let space_str = " ".repeat(len);
         return self.print(space_str.as_str());
     }
     pub fn print_utc_time(&self) -> &Printer {
         // TODO
         return self;
     }
-    pub fn print_pad_right(&self) -> &Printer {
-        // TODO
-        return self;
+    pub fn print_pad_right(&self, msg: &str, len: usize, 
+        delim: &str) -> &Printer {
+        let pad_len = len as i32 - msg.len() as i32;
+
+        if pad_len > 0 {
+            let mut msg_string = String::from(msg);
+            msg_string.push_str(&delim.repeat(pad_len as usize + 1));
+
+            return self.print(&msg_string);
+        }
+        else if pad_len < 0 {
+            let pad_len_string = (-pad_len).to_string();
+            let msg_string_slice = &msg[0..(len - pad_len_string.len())];
+            
+            let mut padded_msg = String::from(msg_string_slice);
+            padded_msg.push_str("+");
+            padded_msg.push_str(&pad_len_string);
+
+            return self.print(&padded_msg);
+        }
+        return self.print(msg);
     }
     pub fn print_pad_left(&self) -> &Printer {
         // TODO
