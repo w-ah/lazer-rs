@@ -22,7 +22,7 @@ fn main() {
         .print("Hello,")
         .print_space()
         .print_green("Green World")
-        .print_ln("!")
+        .print_ln("!");
 }
 ```
 
