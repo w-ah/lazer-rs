@@ -1,4 +1,5 @@
-pub mod lazer;
+mod lazer;
+pub use lazer::*;
 
 #[cfg(test)]
 mod tests {
