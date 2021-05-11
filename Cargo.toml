@@ -2,6 +2,7 @@
 name = "lazer"
 version = "0.1.0"
 authors = ["Will Henderson <14willh@gmail.com>"]
+edition = "2018"
 description= "A console printer with a fluent API"
 documentation = "https://github.com/w-ah/lazer-rs/issues"
 readme = "README.md"
