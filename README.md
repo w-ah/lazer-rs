@@ -13,18 +13,21 @@ Lazer helps you build, format and print complex messages to the console using an
 
 ### Simple Example
 
-```typescript
-import { lazer } from "https://deno.land/x/lazer/mod.ts"
+#### **`main.rs`**
+```rust
+use lazer::{lazer};
 
-lazer()
-    .print("Hello,")
-    .print_space()
-    .print_green("Green World")
-    .print_ln("!")
+fn main() {
+    lazer()
+        .print("Hello,")
+        .print_space()
+        .print_green("Green World")
+        .print_ln("!")
+}
 ```
 
 ```bash
-$ deno run example.ts
+$ cargo run
 Hello, Green World!
 
 ```
