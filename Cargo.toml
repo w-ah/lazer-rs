@@ -11,3 +11,6 @@ repository = "https://github.com/w-ah/lazer-rs"
 license-file = "LICENSE"
 keywords = ["console", "print", "log", "logger"]
 categories = ["command-line-utilities"]
+
+[dependencies]
+chrono = "^0.4.19"

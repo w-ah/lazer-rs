@@ -1,4 +1,5 @@
 use std::io::{self, Write};
+use chrono;
 
 const COLOR_RESET: &'static str = "\x1b[0m";
 const COLOR_RED: &'static str = "\x1b[31m";
@@ -123,8 +124,8 @@ impl Printer {
         return self.print(space_str.as_str());
     }
     pub fn print_utc_time(&mut self) -> &mut Printer {
-        // TODO
-        return self;
+        let now = chrono::offset::Utc::now();
+        return self.print(&now.to_rfc2822());
     }
     pub fn print_pad_right(&mut self, msg: &str, len: usize, 
         delim: &str) -> &mut Printer {
@@ -161,7 +162,6 @@ impl Printer {
         return self.print(msg);
     }
 
-    
     fn set_color(&mut self, color: &str) -> &mut Printer {
         if !self.print_next {
             return self;
