@@ -111,9 +111,17 @@ impl Printer {
         }
         return self.print(msg);
     }
-    pub fn print_pad_left(&self) -> &Printer {
-        // TODO
-        return self;
+    
+    pub fn print_pad_left(&self, msg: &str, len: usize, 
+        delim: &str) -> &Printer {
+        let pad_len = len as i32 - msg.len() as i32;
+        
+        if pad_len > 0 {
+            let mut msg_string = delim.repeat(pad_len as usize + 1);
+            msg_string.push_str(msg);
+            return self.print(&msg_string);
+        }
+        return self.print(msg);
     }
 
     
