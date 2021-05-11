@@ -34,6 +34,7 @@ Hello, Green World!
 
 ### Complex Example
 
+#### **`main.rs`**
 ```typescript
 use lazer::{lazer};
 
