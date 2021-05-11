@@ -70,7 +70,7 @@ fn main() {
 ```
 
 ```bash
-$ deno run example.ts
+$ cargo run
 [Tue, 11 May 2021 17:25:18 +0000] - 127.0.0.1_______  GET__  /a/really/really/r+18  200  20ms___  1.10kB
 
 ```
