@@ -30,7 +30,7 @@ impl Printer {
         self.echo(msg);
         return self;
     }
-    pub fn print_color(&self, color: &str, msg: &str) -> &Printer {
+    fn print_color(&self, color: &str, msg: &str) -> &Printer {
         self.echo(color);
         self.print(msg);
         self.echo(COLOR_RESET);
@@ -40,7 +40,7 @@ impl Printer {
     pub fn print_ln(&self, msg: &str) -> &Printer {
         return self.print(msg).print("\n");
     }
-    pub fn print_color_ln(&self, color: &str, msg: &str) -> &Printer {
+    fn print_color_ln(&self, color: &str, msg: &str) -> &Printer {
         self.print_color(color, msg);
         return self.print_ln("");
     }
@@ -81,8 +81,9 @@ impl Printer {
         return self.print_color_ln(COLOR_CYAN, msg);
     }
 
-    pub fn print_space(&self) -> &Printer {
-        return self.print(" ");
+    pub fn print_space(&self, len: usize) -> &Printer {
+        let space_str = "".repeat(len);
+        return self.print(space_str.as_str());
     }
     pub fn print_utc_time(&self) -> &Printer {
         // TODO
