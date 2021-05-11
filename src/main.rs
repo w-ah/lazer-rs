@@ -1,3 +1,10 @@
+mod lazer;
+
+fn main() {
+    let lazer = lazer::Printer::new();
+    lazer.print_ln("Hello, World!");
+}
+
 // fn main() {
 //     let printer = Printer::new();
 //     printer.print_ln("Hello, World!");
