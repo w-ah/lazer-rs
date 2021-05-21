@@ -1,4 +1,5 @@
 use std::io::{self, Write};
+use std::sync::Mutex;
 use chrono;
 
 const COLOR_RESET: &'static str = "\x1b[0m";
@@ -9,26 +10,45 @@ const COLOR_BLUE: &'static str = "\x1b[34m";
 const COLOR_MAGENTA: &'static str = "\x1b[35m";
 const COLOR_CYAN: &'static str = "\x1b[36m";
 
+// Saved Buffers Map
+// TODO: Lightweight map interface wrapper around this
+lazy_static! {
+    static ref ALIASED_BUFFERS_MAP: Mutex<Vec<[String; 2]>> = Mutex::new(Vec::new());
+}
+
 pub struct Printer {
     // Used to track state of calls to if/elseif/else()
     print_next: bool,
-    block_entered: bool
+    block_entered: bool,
+
+    // used to track buffer mode
+    buffer_string: String,
+    buffer_mode: bool
 }
 
 impl Printer {
     pub fn new() -> Printer {
         Printer {
             print_next: true,
-            block_entered: false
+            block_entered: false,
+            buffer_string: String::new(),
+            buffer_mode: false
         }
     }
 
     fn echo(&mut self, msg: &str) {
-        let stdout = io::stdout();
-        let mut handle = stdout.lock();
+        if self.buffer_mode {
+            if msg.len() > 0 {
+                self.buffer_string.push_str(msg);
+            }
+        }
+        else {
+            let stdout = io::stdout();
+            let mut handle = stdout.lock();
 
-        let res = handle.write_all(msg.as_bytes());
-        res.unwrap();
+            let res = handle.write_all(msg.as_bytes());
+            res.unwrap();
+        }
     }
     // if
     pub fn iff(&mut self, cond: bool) -> &mut Printer 
@@ -54,6 +74,37 @@ impl Printer {
         self.block_entered = false;
         return self;
     }
+    pub fn buffer(&mut self) -> &mut Printer {
+        self.buffer_mode = true;
+        return self;
+    }
+    pub fn ret(&mut self) -> String {
+        return self.buffer_string.clone();
+    }
+    // Save current buffer as alias
+    pub fn store(&mut self, alias: &str) -> &mut Printer {
+        if self.buffer_mode {
+            ALIASED_BUFFERS_MAP.lock().unwrap().push([ String::from(alias), self.buffer_string.clone() ]);
+        }
+        return self;
+    }
+    pub fn load(&mut self, alias: &str) -> &mut Printer {
+        if self.buffer_mode {
+            // Find stored buffer
+            for buffer in ALIASED_BUFFERS_MAP.lock().unwrap().iter() {
+                let buffer_alias = buffer.get(0).unwrap();
+                if buffer_alias.as_str() == alias {
+                    let buffer_str = buffer.get(1).unwrap();
+                    self.buffer_string.clear();
+                    self.buffer_string.push_str(buffer_str);
+                    return self;
+                }
+            }
+        }
+
+        return self;
+    }
+
     pub fn print(&mut self, msg: &str) -> &mut Printer {
         if self.print_next {
             self.echo(msg);
